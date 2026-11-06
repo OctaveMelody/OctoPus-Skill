@@ -1,0 +1,13 @@
+/output/
+/IMPLEMENTATION_PLAN.md
+/QUESTIONS.md
+/.venv/
+/.pytest_cache/
+**/__pycache__/
+*.py[cod]
+*.log
+.env
+.env.*
+*.jps
+*.issues.json
+*.review.md
