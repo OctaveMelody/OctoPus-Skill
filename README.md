@@ -4,9 +4,9 @@ This Windows and Linux skill guides a vision-capable coding agent through transc
 
 ## Requirements
 
-- Windows with PowerShell 5.1 or newer, or Linux with Python 3.11 or newer. Use an installed OctoPus desktop app, a complete portable package, or a Linux AppImage. Download OctoPus from its [official releases](https://github.com/OctaveMelody/OctoPus/releases).
-- Codex, Pi, or OpenCode with image inspection and desktop control, or a user who can carry out the desktop interactions. A vision-capable model is needed for the score comparison.
-- A user-designated PNG, JPG/JPEG, or PDF. The transcription and review remain local. OctoPus does not automatically execute repeat or playback routes.
+- Windows with PowerShell 5.1 or newer, or Linux with Python 3.11 or newer. Current OctoPus packages provide the public CLI; older packages can use the desktop workflow. Download OctoPus from its [official releases](https://github.com/OctaveMelody/OctoPus/releases).
+- Codex, Pi, or OpenCode with local file access and a vision-capable model. Desktop control is needed only for older packages without a detected CLI or when the user chooses the desktop route. OctoPus does not provide or invoke an LLM; the host agent performs visual review.
+- A user-designated PNG, JPG/JPEG, or PDF. The OctoPus CLI processes files locally; visual review uses the host agent's vision-capable model. OctoPus does not automatically execute repeat or playback routes.
 
 ## Install and use
 
@@ -29,7 +29,7 @@ On Linux, open the cloned repository in the agent to use its project skill, or c
 
 The Windows helper also accepts `-Destination` for an agent-specific skills directory. Restart or reload the agent as needed. Refer to the host's documentation for its discovery rules: [Pi](https://pi.dev/docs/latest/skills) and [OpenCode](https://docs.opencode.ai/docs/skills/) document the shared `.agents/skills` layout. The skill follows the common directory-based `SKILL.md` format.
 
-The workflow creates a collision-safe folder in `output` beneath the agent's current working directory, retains the original source, and saves a separate draft, reviewed JPS, rendered pages and report. The desktop app may save a JSON-wrapped `.jps`; the supplied helper can extract plain JPS to a separate file. See the [Windows workflow](.agents/skills/octopus-jps-transcription-review/references/windows-workflow.md) or [Linux workflow](.agents/skills/octopus-jps-transcription-review/references/linux-workflow.md) for details.
+The workflow creates a collision-safe folder in `output` beneath the agent's current working directory, retains the original source, and saves a separate draft, reviewed JPS, rendered pages and report. The CLI's inspect/export commands accept plain and JSON-wrapped `.jps` documents; the supplied helper can extract plain JPS from a wrapped document. See the [Windows workflow](.agents/skills/octopus-jps-transcription-review/references/windows-workflow.md) or [Linux workflow](.agents/skills/octopus-jps-transcription-review/references/linux-workflow.md) for CLI discovery, command examples and the older-package UI fallback.
 
 Review every result against the original. Parser success does not establish musical accuracy, and some symbols may be accepted without being drawn. When a source or symbol is unclear, the report records that uncertainty.
 
