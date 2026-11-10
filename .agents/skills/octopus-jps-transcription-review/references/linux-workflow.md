@@ -32,7 +32,7 @@ Use a short process timeout only for this initial AppImage capability probe, bec
 Create a new workspace and record the source hash:
 
 ```sh
-python3 '<skill-path>/scripts/linux-review.py' prepare '/absolute/path/score.pdf'
+python3 '<skill-path>/scripts/posix-review.py' prepare '/absolute/path/score.pdf'
 ```
 
 Use the helper's returned `OutputDirectory` and `SourceSha256` fields. Select new paths for the draft and issue JSON, then run the CLI synchronously. Keep stdout separate from stderr and check both the exit code and JSON `status`:
@@ -74,7 +74,7 @@ Successful `inspect` and `export` results have `status: "ok"`; check that status
 If a wrapped reviewed document is used, preserve it and extract plain UTF-8 JPS to a different new path:
 
 ```sh
-python3 '<skill-path>/scripts/linux-review.py' export \
+python3 '<skill-path>/scripts/posix-review.py' export \
   "$out/score-reviewed-document.jps" "$out/score-reviewed-plain.jps"
 ```
 

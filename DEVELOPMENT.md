@@ -8,7 +8,7 @@ Run the local checks from the repository root in PowerShell:
 & .\tests\smoke.ps1
 ```
 
-On Linux or macOS, run `python3 tests/smoke-linux.py`. It exercises the shared POSIX helper used by both platform workflows; the file name is historical.
+On Linux or macOS, run `python3 tests/smoke-posix.py`. It exercises `scripts/posix-review.py`, the helper shared by the Linux and macOS workflows.
 
 The checks use generated temporary fixtures and cover PowerShell syntax, workspace creation, collision handling, JSON-wrapped/plain JPS export, source preservation and installation to an isolated destination. They do not exercise the OctoPus CLI or UI, nor measure transcription accuracy. For a full manual check, use a disposable score and a current package: verify `capabilities --json`, then run `transcribe`, `inspect` and PNG `export`; compare every source page/system with the generated pages and validate both plain and wrapped JPS. Check an older-package desktop fallback separately when one is available. Run this against the native package for each platform you claim support for — the Windows console launcher, the Linux AppImage/portable `usr/bin/octopus`, and the macOS app-bundle executable with `--headless`; a pass on one platform does not establish another. Test the host agent's actual skill discovery separately; syntax checks cannot establish Codex, Pi or OpenCode runtime compatibility.
 

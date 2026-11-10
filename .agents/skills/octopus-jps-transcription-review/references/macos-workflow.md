@@ -42,7 +42,7 @@ A capability query that launches and returns valid JSON is the acceptance check 
 The POSIX helper is shared by the Linux and macOS workflows (`python3` 3.11 or newer; on a fresh macOS host install it with `brew install python@3.12` or your usual toolchain). Create a new workspace and record the source hash:
 
 ```sh
-python3 '<skill-path>/scripts/linux-review.py' prepare '/absolute/path/score.pdf'
+python3 '<skill-path>/scripts/posix-review.py' prepare '/absolute/path/score.pdf'
 ```
 
 Use the helper's returned `OutputDirectory` and `SourceSha256` fields. Select new paths for the draft and issue JSON, then run the CLI synchronously. Keep stdout separate from stderr and check both the exit code and JSON `status`:
@@ -86,7 +86,7 @@ Judge musical accuracy from the notation, not from typeface shapes: the macOS pa
 If a wrapped reviewed document is used, preserve it and extract plain UTF-8 JPS to a different new path:
 
 ```sh
-python3 '<skill-path>/scripts/linux-review.py' export \
+python3 '<skill-path>/scripts/posix-review.py' export \
   "$out/score-reviewed-document.jps" "$out/score-reviewed-plain.jps"
 ```
 

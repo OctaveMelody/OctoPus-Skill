@@ -6,10 +6,10 @@ import sys
 import tempfile
 import unittest
 
-SCRIPT = Path(__file__).resolve().parents[1] / '.agents/skills/octopus-jps-transcription-review/scripts/linux-review.py'
+SCRIPT = Path(__file__).resolve().parents[1] / '.agents/skills/octopus-jps-transcription-review/scripts/posix-review.py'
 
 
-class LinuxReviewTest(unittest.TestCase):
+class PosixReviewTest(unittest.TestCase):
     def run_helper(self, *args, ok=True):
         result = subprocess.run([sys.executable, str(SCRIPT), *map(str, args)], capture_output=True, text=True)
         self.assertEqual(result.returncode == 0, ok, result.stderr)
