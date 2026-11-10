@@ -7,6 +7,7 @@ This Windows and Linux skill guides a vision-capable coding agent through transc
 - Windows with PowerShell 5.1 or newer, or Linux with Python 3.11 or newer. Current OctoPus packages provide the public CLI; older packages can use the desktop workflow. Download OctoPus from its [official releases](https://github.com/OctaveMelody/OctoPus/releases).
 - Codex, Pi, or OpenCode with local file access and a vision-capable model. Desktop control is needed only for older packages without a detected CLI or when the user chooses the desktop route. OctoPus does not provide or invoke an LLM; the host agent performs visual review.
 - A user-designated PNG, JPG/JPEG, or PDF. The OctoPus CLI processes files locally; visual review uses the host agent's vision-capable model. OctoPus does not automatically execute repeat or playback routes.
+- When the host model is served by Strata, run this workflow in a single agent session; do not review scores in parallel sessions.
 
 ## Install and use
 
