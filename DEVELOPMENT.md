@@ -1,6 +1,6 @@
 # Development
 
-The portable skill is in `.agents/skills/octopus-jps-transcription-review`. `SKILL.md` contains the agent workflow; `references/` contains notation and visual-review guidance; and `scripts/` contains Windows and Linux helpers for preparing a workspace, exporting plain JPS, and optionally installing the skill. OctoPus remains a separate installed or portable application. No OctoPus source checkout is required.
+The portable skill is in `.agents/skills/octopus-jps-transcription-review`. `SKILL.md` contains the agent workflow; `references/` contains notation, per-platform and visual-review guidance; and `scripts/` contains Windows PowerShell and POSIX (Linux/macOS) helpers for preparing a workspace, exporting plain JPS, and optionally installing the skill. OctoPus remains a separate installed or portable application. No OctoPus source checkout is required.
 
 Run the local checks from the repository root in PowerShell:
 
@@ -8,9 +8,9 @@ Run the local checks from the repository root in PowerShell:
 & .\tests\smoke.ps1
 ```
 
-On Linux, run `python3 tests/smoke-linux.py`.
+On Linux or macOS, run `python3 tests/smoke-linux.py`. It exercises the shared POSIX helper used by both platform workflows; the file name is historical.
 
-The checks use generated temporary fixtures and cover PowerShell syntax, workspace creation, collision handling, JSON-wrapped/plain JPS export, source preservation and installation to an isolated destination. They do not exercise the OctoPus CLI or UI, nor measure transcription accuracy. For a full manual check, use a disposable score and a current package: verify `capabilities --json`, then run `transcribe`, `inspect` and PNG `export`; compare every source page/system with the generated pages and validate both plain and wrapped JPS. Check an older-package desktop fallback separately when one is available. Test the host agent's actual skill discovery separately; syntax checks cannot establish Codex, Pi or OpenCode runtime compatibility.
+The checks use generated temporary fixtures and cover PowerShell syntax, workspace creation, collision handling, JSON-wrapped/plain JPS export, source preservation and installation to an isolated destination. They do not exercise the OctoPus CLI or UI, nor measure transcription accuracy. For a full manual check, use a disposable score and a current package: verify `capabilities --json`, then run `transcribe`, `inspect` and PNG `export`; compare every source page/system with the generated pages and validate both plain and wrapped JPS. Check an older-package desktop fallback separately when one is available. Run this against the native package for each platform you claim support for — the Windows console launcher, the Linux AppImage/portable `usr/bin/octopus`, and the macOS app-bundle executable with `--headless`; a pass on one platform does not establish another. Test the host agent's actual skill discovery separately; syntax checks cannot establish Codex, Pi or OpenCode runtime compatibility.
 
 Do not commit user-provided scores, source images, extracted diagnostics, screenshots, generated renders, local credentials, virtual environments or temporary review artifacts. The `.gitignore` excludes the normal output directory and JPS/review artifacts. Check the staged file list before publishing changes. The source-checkout-only helpers from earlier experiments are not part of this distribution.
 

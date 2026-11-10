@@ -2,6 +2,14 @@
 
 The public CLI is the default for current OctoPus packages. It uses the local transcription/parser/render engine and does not contain or invoke an LLM. The active vision-capable host agent must still compare every source page and rendered page and correct the JPS.
 
+## Package and prerequisites
+
+Linux releases are `OctoPus_<version>_<arch>_linux.AppImage` packages or the complete portable tree whose executable is `usr/bin/octopus`. Both accept `--headless`; there is no separate console launcher.
+
+- The executable links the desktop GUI libraries, so the host GTK/WebKit runtime packages are required even for headless commands (on Debian and Ubuntu: `libgtk-3-dev`'s runtime libraries and `libwebkit2gtk-4.1`). A launch failure that names a missing shared library is an installation blocker to report, not an older-package signal.
+- PDF transcription needs Poppler's `pdfinfo`, `pdftotext` and `pdftoppm` on `PATH` (`sudo apt-get install poppler-utils`); the AppImage does not bundle them.
+- Linux packages ship the verified score-font set under `usr/lib/OctoPus/fonts/` beside the worker. Keep the tree together, and expect legitimate glyph-shape differences against macOS or Windows pages of the same JPS; judge musical accuracy from the notation, not the typeface.
+
 ## Detect the public CLI
 
 Resolve the selected AppImage or portable executable to an absolute path. The AppImage and portable program both receive `--headless` before the CLI command:
