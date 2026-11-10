@@ -58,7 +58,7 @@ $result = $call.Stdout | ConvertFrom-Json -ErrorAction Stop
 if ($result.status -ne 'ok') { throw "OctoPus transcription returned status '$($result.status)'." }
 ```
 
-Record `draft_path`, `issues_path`, `page_count`, `issue_count`, and structured `issues`; the paths in the JSON are absolute. The separate issue file has `status: review_required`. For a PDF, require `transcription_available` and `pdf_transcription.available` before starting, then make sure the returned recognized source-page count matches the full document. If `pdf_transcription.missing` lists tools, report that capability gap before transcription; do not start and then change interfaces after an error.
+Record `draft_path`, `issues_path`, `page_count`, `issue_count`, and structured `issues`; the paths in the JSON are absolute. The separate issue file has `status: review_required`. For a PDF, require `transcription_available` and `pdf_transcription.available` before starting, then make sure the returned processed source-page count matches the full document. If `pdf_transcription.missing` lists tools, report that capability gap before transcription; do not start and then change interfaces after an error.
 
 ## Inspect and export rendered pages
 

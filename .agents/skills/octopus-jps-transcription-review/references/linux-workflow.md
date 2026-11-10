@@ -49,7 +49,7 @@ if [ "$code" -ne 0 ]; then printf '%s\n' "$result" >&2; exit "$code"; fi
 printf '%s\n' "$result"
 ```
 
-The successful JSON result has `status: "ok"` and includes absolute `draft_path` and `issues_path`, `page_count`, `issue_count`, and structured `issues`. Check `status` as well as the process exit code. The separate issue file has `status: review_required`. `page_count` counts source pages successfully recognized. For a PDF, only start after `transcription_available` and `pdf_transcription.available` are true; if `pdf_transcription.missing` lists required tools, report the capability gap before starting. Confirm the returned source page count against the complete PDF. Read every PDF page in order during visual review.
+The successful JSON result has `status: "ok"` and includes absolute `draft_path` and `issues_path`, `page_count`, `issue_count`, and structured `issues`. Check `status` as well as the process exit code. The separate issue file has `status: review_required`. `page_count` counts source pages processed. For a PDF, only start after `transcription_available` and `pdf_transcription.available` are true; if `pdf_transcription.missing` lists required tools, report the capability gap before starting. Confirm the returned source page count against the complete PDF. Read every PDF page in order during visual review.
 
 ## Inspect and export rendered pages
 
