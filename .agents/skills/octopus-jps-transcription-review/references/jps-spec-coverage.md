@@ -29,7 +29,7 @@ The upstream source is [Jianpu-Spec v1.0](https://github.com/yetist/jianpu-spec)
 | `/`, `.`, `-` | Shorten duration, dotted duration, extend a sounding note. | Implemented, including supported combinations. `-` is not a new lyric-bearing attack. |
 | `#`, `$`, `=` | Sharp, flat, natural accidental. | Implemented before/after note forms supported by the parser. |
 | `&name` | Named dynamics, tempo/ornament and other symbols listed in the spec tables. | The parser accepts generic names, but visible drawing is partial. Use the manual's rendered sample/status table for current support; do not infer a visible glyph from successful parsing. |
-| `<`, `>`, `!`, `+` | Crescendo/decrescendo spans, end marks and vertical adjustment. | Implemented. `+` modifies documented constructs; keep it attached as the grammar requires. |
+| `<`, `>`, `!`, `+` | Crescendo/decrescendo spans, end marks and vertical adjustment. | Implemented. `+` modifies documented constructs; keep it attached as the grammar requires. Verified on the current renderer: the bare span form (`5< … 4!` or `5> … 4!`) draws the hairpin converging toward the `!` host, while the code-after-a-note form `5&gt … 4!` parses with no visible span. Prefer bare span markers when the source hairpin must be visible. |
 | `[..]`, `[h..]` | Pre-grace and post-grace notes. | Implemented. Grace notes have their own duration rules in the manual/spec. |
 | `(...)`, `(y...)` | Slur/tie spans and tuplets. | Implemented, including nested/cross-row spans where valid. Do not confuse a music slur with lyric grouping. |
 | `|`, `||`, `||/`, `|:`, `:|`, `:|:` and documented variants | Barline/final/repeat boundaries. | Implemented, including hidden `|/` (no barline width) and `|*` (invisible spacing slot). |
@@ -45,7 +45,7 @@ The upstream source is [Jianpu-Spec v1.0](https://github.com/yetist/jianpu-spec)
 |---|---|---|
 | `C:` | Lyric row aligned with preceding Q/music row; multiple verses may follow. | Implemented, including numbered lyric voices. |
 | CJK characters | One Chinese character per note/slot. | Implemented; compare carefully when there are hidden rests, skips or melismas. |
-| `@` | Skip one note/lyric slot. | Implemented. It is not itself a sung syllable. |
+| `@` | Skip one note/lyric slot. | Implemented. It is not itself a sung syllable. Skips interact cumulatively with melisma groups and lyric `~`, so alignment cannot be reliably hand-counted: verify every lyric row in a rendered page against the source and, when a row cannot reproduce the scanned syllable-to-note placement, record the drifted slots instead of iterating indefinitely. |
 | `~` in lyrics | Join adjacent characters/syllables to one note or grouping. | Implemented; lyric `~` is distinct from its music-line meaning. |
 | `/` | Separate English words/syllables and clarify mixed-language boundaries. | Implemented. English syllable-to-note assignment is not equivalent to one letter per note. |
 | Punctuation and full-width space | Preserve meaningful punctuation/spacing conventions. | Implemented according to current renderer behavior; inspect the rendered result. |
@@ -58,7 +58,8 @@ The bilingual manual includes a current-OctoPus preview for each listed command.
 renderer revision, `&cresc`, `&sf`, `&fp`, `&sfp`, `&tempo`, `&a tempo`, `&zy`, `&dy`, `&hx`, `&xby`,
 `&cy`, `&xby+`, and `&cy+` add no visible mark; `&sby+` uses the base `&sby` shape. `&fine` and
 `&dc.` print text without a dedicated glyph. `&sbf` prints literal `sbf` and does not position the
-voice brace. The other documented symbols and terms are shown individually in the manual table.
+voice brace. The `&lt`/`&gt` span codes parse without drawing a hairpin; use the bare `<`/`>`
+span form instead. The other documented symbols and terms are shown individually in the manual table.
 These are renderer limitations, not reasons to rewrite or omit a symbol that is clearly present in
 the source score.
 

@@ -53,7 +53,7 @@ The successful JSON result has `status: "ok"` and includes absolute `draft_path`
 
 ## Inspect and export rendered pages
 
-`inspect` and `export` accept plain JPS or a JSON-wrapped OctoPus document with `code` and page settings. `inspect` returns `document_name`, `json_wrapped`, `encoding_repaired`, `source_offset_unit`, `parse_diagnostics`, `score_diagnostics`, rendered `page_count`, and `custom_markup_omitted`. Use its diagnostics to identify syntax problems. A clean parse does not establish musical accuracy.
+`inspect` and `export` accept plain JPS or a JSON-wrapped OctoPus document with `code` and page settings. Pass absolute paths for every CLI input and output; a relative path can resolve against the worker's own working directory and fail with `input_unavailable`. `inspect` returns `document_name`, `json_wrapped`, `encoding_repaired`, `source_offset_unit`, `parse_diagnostics`, `score_diagnostics`, rendered `page_count`, and `custom_markup_omitted`. Use its diagnostics to identify syntax problems. A clean parse does not establish musical accuracy.
 
 ```sh
 inspect=$("$app" --headless inspect "$draft" --json)
