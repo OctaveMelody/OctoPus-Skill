@@ -25,9 +25,9 @@ The upstream source is [Jianpu-Spec v1.0](https://github.com/yetist/jianpu-spec)
 |---|---|---|
 | `1`–`7` | Scale degrees; pitch is relative to the declared key/context. | Implemented. They are not absolute MIDI note numbers. |
 | `0`, `8`, `9` | Visible rest, hidden rest/layout slot, rhythm X. | Implemented. `8` occupies rhythmic/layout space without printing a note. |
-| `'`, `,` | Raise/lower octave; repeat marks for larger octave shifts. | Implemented. Preserve the number and direction of octave marks. |
+| `'`, `,` | Raise/lower octave; repeat marks for larger octave shifts. | Implemented. Preserve the number and direction of octave marks. Marks are per-note: a dot belongs only where it is individually printed; it does not propagate to same-degree notes in repeated or slurred groups, and a dot the source does not print is a transcription error. |
 | `/`, `.`, `-` | Shorten duration, dotted duration, extend a sounding note. | Implemented, including supported combinations. `-` is not a new lyric-bearing attack. |
-| `#`, `$`, `=` | Sharp, flat, natural accidental. | Implemented before/after note forms supported by the parser. |
+| `#`, `$`, `=` | Sharp, flat, natural accidental. | Implemented before/after note forms supported by the parser. **Post-fixed is the preferred spelling:** `4#`, `5#`, `7$`, `6,$`, `1'#`, `4=`. Both orders parse and the renderer draws the accidental left of the note; pre-fixed `#4`/`$7`/`=4` are normalized to post-fixed. |
 | `&name` | Named dynamics, tempo/ornament and other symbols listed in the spec tables. | The parser accepts generic names, but visible drawing is partial. Use the manual's rendered sample/status table for current support; do not infer a visible glyph from successful parsing. |
 | `<`, `>`, `!`, `+` | Crescendo/decrescendo spans, end marks and vertical adjustment. | Implemented. `+` modifies documented constructs; keep it attached as the grammar requires. Verified on the current renderer: the bare span form (`5< … 4!` or `5> … 4!`) draws the hairpin converging toward the `!` host, while the code-after-a-note form `5&gt … 4!` parses with no visible span. Prefer bare span markers when the source hairpin must be visible. |
 | `[..]`, `[h..]` | Pre-grace and post-grace notes. | Implemented. Grace notes have their own duration rules in the manual/spec. |
@@ -35,7 +35,7 @@ The upstream source is [Jianpu-Spec v1.0](https://github.com/yetist/jianpu-spec)
 | `|`, `||`, `||/`, `|:`, `:|`, `:|:` and documented variants | Barline/final/repeat boundaries. | Implemented, including hidden `|/` (no barline width) and `|*` (invisible spacing slot). |
 | `[]` at barlines | Volta/house-jump starts, ends, labels and adjustments. | Implemented. Labels/marks print but do not execute playback routes. |
 | `|"p:n/d"` | Temporary meter change attached to a barline. | Implemented; the current meter continues according to OctoPus behavior across rows until changed again. |
-| `{bz}`, `{dsb}` | Temporary accompaniment/voice blocks. | Implemented by current parser/layout. |
+| `{bz}`, `{dsb}` | `{bz}` temporary accompaniment (临时伴奏); `{dsb}` temporary multiple voices (临时多声部 — dsb = duo sheng bu, NOT 低声部/bass and unrelated to D.S.). | Implemented by current parser/layout; content inside the block positions against the main voice timeline. |
 | `"text"` in a Q line | Note annotation. | Implemented; quote and attachment position matter. |
 | `~`, `^` | `~` joins neighboring notes into one beat group; `^` forces a group boundary after its host. | Implemented as custom beat grouping. A music `~` host also activates tie-aware grouping for following short notes in the renderer; it does not change the written note values and is distinct from parenthesized `(…)` slurs and lyric `~`. |
 
@@ -46,9 +46,9 @@ The upstream source is [Jianpu-Spec v1.0](https://github.com/yetist/jianpu-spec)
 | `C:` | Lyric row aligned with preceding Q/music row; multiple verses may follow. | Implemented, including numbered lyric voices. |
 | CJK characters | One Chinese character per note/slot. | Implemented; compare carefully when there are hidden rests, skips or melismas. |
 | `@` | Skip one note/lyric slot. | Implemented. It is not itself a sung syllable. Alignment cannot be derived by counting note slots by hand: skips interact cumulatively with melisma groups, slurs and lyric `~`, and lyric glyphs are not reliably centered under their noteheads, so measuring glyph positions on scaled crops cannot establish a slot map either. Treat a draft lyric row that renders as a visual match to the source as correctly placed and keep its `@`/`~` structure; change character content without re-flowing placement, and validate any placement change by comparing the newly rendered row beside the source page at matched scale. |
-| `~` in lyrics | Join adjacent characters/syllables to one note or grouping. | Implemented; lyric `~` is distinct from its music-line meaning. |
+| `~` in lyrics | Join adjacent characters/syllables to one note or grouping. | Implemented; lyric `~` is distinct from its music-line meaning. **`~` before punctuation is mandatory for correct rendering:** a joined/extended syllable followed by punctuation is written `word~!`, `word~,`, `word~.` (e.g. `grace~!`, `lost~,`, `see~.`). Without the `~` the punctuation detaches into its own lyric slot and shifts the row; a `~`+punctuation join must never be normalized away. |
 | `/` | Separate English words/syllables and clarify mixed-language boundaries. | Implemented. English syllable-to-note assignment is not equivalent to one letter per note. |
-| Punctuation and full-width space | Preserve meaningful punctuation/spacing conventions. | Implemented according to current renderer behavior; inspect the rendered result. |
+| Punctuation and full-width space | Preserve meaningful punctuation/spacing conventions. | Implemented according to current renderer behavior; inspect the rendered result. Punctuation after a `~`-joined syllable stays attached to it (`sound~,`, `me~!`); the `~` before the punctuation is a rendering requirement. |
 | `"text"` at a C-line start | Quoted lyric annotation/verse label. | Implemented as a lyric annotation, but OctoPus removes ordinary half-width spaces from its payload and preserves `_` literally. |
 | `_` inside quoted lyric annotation | Spec convention for a space where a literal source space cannot be used. | **Not implemented as a conversion:** OctoPus displays `_` rather than a space. If this convention is needed, record the limitation and do not silently claim parity. |
 
