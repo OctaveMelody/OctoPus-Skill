@@ -21,6 +21,17 @@ For each source/rendered system pair, account for:
 - **Lyrics:** map each printed character or syllable to its note/slot in order. Account for every `@` skip, sustained-note melisma, punctuation, and lyric continuation. Do not infer alignment from total lyric length or from a neighboring repeated verse; confirm it against the actual noteheads and lyric positions.
 - **Variant repeats:** revisit every repeated melody when its notes, lyrics, articulation, or ending differ. Never copy a prior system without checking the corresponding source system.
 
+Run a separate pass for small marks above the notes. Record the host of each
+zigzag (upper mordent `&sby`), other ornament, articulation, and numbered arc.
+For a printed **3** with an arc over three eighth notes, encode the whole group,
+for example `(y6,/ 1/ 3/)`. A plain slur over the same notes leaves their written
+durations unscaled. Inspect both the number and endpoints in the render. The
+legacy `(y…)` notation displays 3. On packages that support numbered
+tuplets, write the count and colon for another group, for example
+`(y6: 6,// 7,// 1// 2// 3// 5//)`. Check that the package renders the
+correct number and report any missing support. Keep a continuation stroke as a separate token, for example
+`5&sby - - -`. Recheck the render after formatting, including each mark's host.
+
 Inventory accompaniment parentheses across the entire score, including instrumental introductions and passages that cross Q rows. Record each opening and closing endpoint separately and check that both characters actually appear in the render; a matching pair elsewhere does not cover the opening. Ordinary music parentheses create a slur and may parse cleanly while leaving the printed accompaniment parentheses absent. In one checked introduction, `0&zkh` opens the printed parenthesis on a rest and `5, - - - &ykh` closes it after the sustained ending in a later Q row. Use the source to select the endpoints and verify the output rather than copying this placement into unrelated scores.
 
 Inspect attachment as well as the symbol name: in a checked OctoPus case, `- &ykh` parsed as a separate decoration token, while `-&ykh` attached it to the preceding continuation dash. Both parsed without diagnostics. Compare the parsed token and rendered position against the source before choosing the form. Also recheck grouping when spaces around notes, symbols or row-start barlines change: adjacency can change `attached_to_previous` even when pitches and durations remain the same.
